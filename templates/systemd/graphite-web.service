@@ -6,7 +6,8 @@ After=basic.target network.target
 [Service]
 EnvironmentFile=/etc/sysconfig/graphite-web
 User=<%= @user %>
-ExecStart=<%= @root_dir %>/bin/gunicorn_django -b <%= @bind_address -%>:<%= @port %> -w2 graphite/settings.py
+WorkingDirectory=<%= @root_dir %>/webapp/graphite
+ExecStart=<%= @root_dir %>/bin/gunicorn -b <%= @bind_address -%>:<%= @port %> -w2 graphite_wsgi:application
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
 Restart=on-failure

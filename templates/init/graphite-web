@@ -22,10 +22,10 @@ NAME=gunicorn-graphite
 DESC=gunicorn-graphite
 
 # Path to Executable
-DAEMON=<%= @root_dir %>/bin/gunicorn_django
+DAEMON=<%= @root_dir %>/bin/gunicorn
 
 # DAEMON_OPTS="--user=$USER --group=$GROUP --bind=$BIND --pid=$PID --workers=$WORKERS --name=$APP --preload --daemon"
-DAEMON_OPTS="-b <%= @bind_address -%>:<%= @port %> -w2 --pid=$PID --daemon graphite/settings.py"
+DAEMON_OPTS="-b <%= @bind_address -%>:<%= @port %> -w2 --pid=$PID --daemon graphite_wsgi:application"
 
 case "$1" in
   start)

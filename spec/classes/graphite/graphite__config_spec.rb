@@ -112,7 +112,7 @@ describe 'graphite', :type => :class do
 
       describe "graphite-web.conf" do
         it { should contain_file('/etc/init/graphite-web.conf').with_ensure('present').
-             with_content(/chdir '\/this\/is\/root\/webapp'/).
+             with_content(/chdir '\/this\/is\/root\/webapp\/graphite'/).
              with_content(/PYTHONPATH='\/this\/is\/root\/webapp'/).
              with_content(/GRAPHITE_STORAGE_DIR='\/this\/is\/root\/storage'/).
              with_content(/GRAPHITE_CONF_DIR='\/this\/is\/root\/conf'/).
@@ -146,9 +146,9 @@ describe 'graphite', :type => :class do
       describe "graphite-web" do
         it { should contain_file('/etc/init.d/graphite-web').with_ensure('present').
           with_content(/^\. \/etc\/sysconfig\/graphite-web/).
-          with_content(/^DAEMON=\/this\/is\/root\/bin\/gunicorn_django/).
+          with_content(/^DAEMON=\/this\/is\/root\/bin\/gunicorn/).
           with_content(/^DAEMON_OPTS=\"-b 127\.0\.0\.1:8000/).
-          with_content(/^DAEMON_OPTS=\".*--daemon graphite\/settings.py\"/).
+          with_content(/^DAEMON_OPTS=\".*--daemon graphite_wsgi:application\"/).
           with_mode('0755') }
       end
     end
@@ -181,8 +181,8 @@ describe 'graphite', :type => :class do
         it { should contain_file('/lib/systemd/system/graphite-web.service').with_ensure('present').
           with_content(/^EnvironmentFile=\/etc\/sysconfig\/graphite-web/).
           with_content(/^User=root/).
-          with_content(/^ExecStart=\/this\/is\/root\/bin\/gunicorn_django -b 127\.0\.0\.1:8000 -w2/).
-          with_content(/^ExecStart=.* -w2 graphite\/settings.py/).
+          with_content(/^ExecStart=\/this\/is\/root\/bin\/gunicorn -b 127\.0\.0\.1:8000 -w2/).
+          with_content(/^ExecStart=.* -w2 graphite_wsgi:application/).
           with_mode('0644') }
       end
     end
