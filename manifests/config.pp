@@ -189,8 +189,9 @@ class graphite::config {
 
   file { "${root_dir}/storage/log/webapp/":
     ensure    => 'directory',
+    recurse   => true,
     owner     => $user,
-    mode      => '0775',
+    mode      => '0664',
   }
 
   file { "${root_dir}/webapp/graphite/local_settings.py":
